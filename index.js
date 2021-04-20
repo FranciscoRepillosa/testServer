@@ -3,10 +3,8 @@ dotenv.config({ path: "./config.env" })
 
 process.on("uncaughtException", err => {
   console.log(err);
-  console.log(err.name, err.message);
-  console.log("UNCAUGHT REJECTION  OH SHITTTTTT (.)(.) ");
-  // i think it´s should be usefull to send a email or text msg to delelopers in this situations 
-    process.exit(1);
+  console.log(err.name, err.message); 
+  process.exit(1);
 });
 
 const app = require("./server");
@@ -36,9 +34,7 @@ const server = app.listen(port, function () {
 
 process.on("unhandledRejection", err => {
   console.log(err);
-  console.log(err.name, err.message);
-  console.log("UNHANDLE REJECTION  OH SHITTTTTT (.)(.)");
-  // i think it´s should be usefull to send a email or text msg to delelopers in this situations 
+  console.log(err.name, err.message); 
   server.close(() => {
     process.exit(1);
   })

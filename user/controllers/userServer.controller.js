@@ -1,7 +1,7 @@
 const User = require("../models/user.models");
 
 exports.sendRegisterForm = (req, res) => {
-    console.log(__dirname);
+    
     res.sendFile("C:/Users/computador/Documents/1_proyecos/Pro-Proyects/Learning-Platform/Learning-platform/userServer/views/register.html");
 }
 

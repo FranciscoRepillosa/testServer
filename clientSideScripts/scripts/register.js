@@ -14,8 +14,6 @@ selectInputsById(["username", "password", "repeatPassword, passwordB, repeatPass
 document.getElementById("form").addEventListener("submit", e => {
     e.preventDefault();
     let {username, password, ...Other} = SelectedInputs;
-
-    console.log(repeatPasswordB.value, passwordB.value);
     
  if (repeatPassword.value === password.value && passwordB.value === repeatPasswordB.value ) {
      fetch("http://localhost:4321/fakeServer", {
@@ -46,15 +44,7 @@ document.getElementById("form").addEventListener("submit", e => {
          }
      });
  } else {
-     alert("passwords should macth")
+     alert("passwords should match")
  }
-    
-
-    //verify is the input values are valid
-    //encryp user inputs
-    //send those inputs to the external server
-    //and the portal cautivo
-    //then store in our own db
 })
 
-//how to create a variable dinamicly

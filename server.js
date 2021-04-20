@@ -17,9 +17,9 @@ app.use("/fakeServer", fakeServerRoutes);
 
 app.use("*", (req, res, next) => {
   console.log("* route", req.originalUrl);
-  next(new AppError(`I´m sorry but can´t find ${req.originalUrl} on this server`, 404));
+  res.status(404).json({
+    msg: `I´m sorry but can´t find ${req.originalUrl} on this server`
+  })
 });
-
-//app.use(globalErrorHandler);
 
 module.exports = app;
