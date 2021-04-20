@@ -10,7 +10,7 @@ exports.createUser = async (req, res) => {
         console.log(req.body);
     const newUuser = await User.create(req.body);
 
-    //send data to PC
+    //Create user on Mikrotik
 
     res.status(201).json({
         newUuser,
