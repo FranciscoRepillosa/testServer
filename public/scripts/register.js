@@ -16,15 +16,22 @@ document.getElementById("form").addEventListener("submit", e => {
     let {email, password, ...Other} = SelectedInputs;
     
  if (repeatPassword.value === password.value && passwordB.value === repeatPasswordB.value ) {
-    console.log(CryptoJS.SHA256(email).toString())
+
+    let reqBody = {
+        userPassword: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
+        userEmail: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
+        hash: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString()
+
+    }
+
      fetch("http://localhost:4444/user", {
          method: "POST",
          headers: {
             "Content-Type": "application/json"
         },
          body: JSON.stringify({
-             email: CryptoJS.SHA256(email).toString(),
-             password: CryptoJS.SHA256(password).toString()
+            password: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
+            email: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
          })
      })
      .then(res =>res.json())
@@ -36,9 +43,9 @@ document.getElementById("form").addEventListener("submit", e => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email: CryptoJS.SHA256(email).toString(),
-                    password: CryptoJS.SHA256(passwordB).toString()
-                })
+                    password: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
+                    email: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
+                 })
             })
             .then(res => res.json())
             .then(data => console.log(data))
