@@ -18,10 +18,8 @@ document.getElementById("form").addEventListener("submit", e => {
  if (repeatPassword.value === password.value && passwordB.value === repeatPasswordB.value ) {
 
     let reqBody = {
-        userPassword: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
-        userEmail: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
-        hash: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString()
-
+        password: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
+        email: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
     }
 
      fetch("http://localhost:4444/user", {
@@ -29,10 +27,7 @@ document.getElementById("form").addEventListener("submit", e => {
          headers: {
             "Content-Type": "application/json"
         },
-         body: JSON.stringify({
-            password: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
-            email: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
-         })
+         body: JSON.stringify(reqBody)
      })
      .then(res =>res.json())
      .then(data => {
@@ -42,10 +37,7 @@ document.getElementById("form").addEventListener("submit", e => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({
-                    password: CryptoJS.AES.encrypt(password.value, "Secret Passphrase").toString(),
-                    email: CryptoJS.AES.encrypt(email.value, "Secret Passphrase").toString(),
-                 })
+                body: JSON.stringify(reqBody)
             })
             .then(res => res.json())
             .then(data => console.log(data))
