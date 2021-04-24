@@ -17,29 +17,46 @@ const userRoutes = require("./user/routes.confing");
 
 app.use("/user", userRoutes);
 
-/*
+
 setInterval( () => { 
   //REQUEST USERS STATUS FROM EXTERNAL SERVER
   axios.get('http://localhost:4444/user')
   .then( async (response) => {
     // handle success
-    //console.log("external user", response.data.data[0]);
-
-    let localUser = await User.find().select("_id");
-
-
-
-    console.log(localUser);
+    let externalUSers = response.data.data;
+    console.log("external user", response.data.data.length);
     
+    let localUsers = await User.find().select("email status -_id");
+
+    let obj = {};
+    localUsers.forEach(localUser => {
+      console.log("localUSer", localUser);
+      obj[localUser.email] = [localUser.status, localUser.email];
+      console.log("obj  ", obj[localUser.email])
+    });
+
+    externalUSers.forEach(async externalUser => {
+      //console.log("email are equal", externalUser.email, obj[externalUser.email]);     
+      //console.log("status ", externalUser.status, obj[externalUser.email][0]);
+      if(obj[externalUser.email]){
+        if (externalUser.email === obj[externalUser.email][1]  && externalUser.status !== obj[externalUser.email][0]) {
+          console.log("this should update ",externalUser , obj[externalUser.email]);
+          const updatedUser = await User.findOneAndUpdate({ email: obj[externalUser.email][1] }, {status: externalUser.status}, {new: true});
+          console.log("from ", obj[externalUser.email] ,"to  ", updatedUser);
+          
+        
+      }
+      }
+    })
+  
   })
   .catch(function (error) {
     // handle error
     console.log(error);
   })
-  //IF USER STATUS CHANGED UPDATE STATUS IN OUR DB
-  //MAKE THE MODIFICATIONS TO THE MICROTIK
+
 }, process.env.REQUEST_USER_STATUS_BY_INTERVALS);
-*/
+
 
 app.use("*", (req, res, next) => {
   console.log("* route", req.originalUrl);
